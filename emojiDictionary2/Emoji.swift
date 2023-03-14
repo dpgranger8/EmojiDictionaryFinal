@@ -60,7 +60,11 @@ struct Emoji: Codable {
         let propertyListDecoder = PropertyListDecoder()
         if let retrievedEmojiArrayData = try? Data(contentsOf: archiveURL),
            let decodedEmojiArray = try? propertyListDecoder.decode(Array<Emoji>.self, from: retrievedEmojiArrayData) {
-            return decodedEmojiArray
+            if decodedEmojiArray.isEmpty {
+                return Emoji.sampleEmojis()
+            } else {
+                return decodedEmojiArray
+            }
         } else {
             return nil
         }
